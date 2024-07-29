@@ -1,6 +1,8 @@
 -- Armored NPCs
 -- by Kai D. Gonzalez
 
+util.AddNetworkString("npc_took_damage")
+
 --[[
 	Allows NPCs to have armor, similar to players, and games like Call of Duty have.
 ]]
@@ -153,6 +155,16 @@ hook.Add("ScaleNPCDamage", "ManageNPCDamage", function(ent, hitgroup, dmginfo)
 
 	-- we're most likely fine at this stage, so play a hit sound
 	ent:EmitSound(Sounds["BulletArmorHit01"]())
+
+	-- show a particle effect
+
+	if NPCCurrentArmor > 0 then
+		net.Start("npc_took_damage")
+		net.WriteEntity(ent)
+		net.Broadcast()
+
+		return 1
+	end
 
 	return 1
 end)
