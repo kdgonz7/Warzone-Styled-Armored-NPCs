@@ -1,11 +1,12 @@
 hook.Add( "AddToolMenuCategories", "CustomCategory", function()
-	spawnmenu.AddToolCategory( "Utilities", "Armored NPCs", "#Armored NPCs" )
+	spawnmenu.AddToolCategory( "Utilities", "Armored NPCs", "#armorednpcs" )
 end )
 
 hook.Add( "PopulateToolMenu", "CustomMenuSettings", function()
-	local super = LocalPlayer():IsSuperAdmin()
 
 	spawnmenu.AddToolMenuOption( "Utilities", "Armored NPCs", "ArmoredNPCSettings", "#Settings", "", "", function( panel )
+		local super = LocalPlayer():IsSuperAdmin()
+
 		panel:ClearControls()
 
 		if not super then
