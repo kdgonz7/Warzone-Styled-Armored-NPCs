@@ -15,8 +15,9 @@ local Sounds = {
 		return snd
 	end,
 	["BulletArmorHit01"] = function ()
-		local snd = "mw_carmor/bullet_impact_helmet_shatter_01.wav"
-		return snd
+		local snd = { "mw_carmor/bullet_impact_helmet_shatter_01.wav", "mw_carmor/bullet_impact_helmet_shatter_02.wav", "mw_carmor/bullet_impact_helmet_shatter_03.wav" }
+
+		return snd[math.random(1, 3)]
 	end,
 }
 
@@ -34,7 +35,7 @@ local ProtType = CreateConVar("gk_protection_type", "nodmg", {FCVAR_ARCHIVE, FCV
 --[[ 
 	Should the mod send messages (print to console) when damage calculations are made? 
 ]]
-local SendMessages = CreateConVar("gk_send_messages", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Notify the server when damage is taken. (for devs)")
+local SendMessages = CreateConVar("gk_send_messages", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Notify the server when damage is taken. (for devs)")
 
 --[[ 
 	How much harder should it be to kill the super soldier/super NPCs? 
