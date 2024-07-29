@@ -15,6 +15,8 @@ hook.Add( "PopulateToolMenu", "CustomMenuSettings", function()
 		end
 
 		panel:CheckBox( "Enabled", "gk_armor_enabled" )
+		panel:CheckBox( "Show armor sparks" , "gk_play_sparks" )
+		panel:CheckBox( "Play armor Hit & Break SFX" , "gk_play_sounds" )
 		panel:CheckBox( "Send Messages To Server Console", "gk_send_messages" )
 
 		panel:Help( "The type of protection. nodmg is more like blast protection, deplete just lessens the damage." )
