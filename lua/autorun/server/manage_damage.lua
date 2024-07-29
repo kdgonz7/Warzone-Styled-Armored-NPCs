@@ -49,7 +49,6 @@ local Sounds = {
 	end,
 	["BulletArmorHit01"] = function ()
 		local snd = { "mw_carmor/bullet_impact_helmet_shatter_01.wav", "mw_carmor/bullet_impact_helmet_shatter_02.wav", "mw_carmor/bullet_impact_helmet_shatter_03.wav" }
-
 		return snd[math.random(1, 3)]
 	end,
 }
@@ -81,6 +80,11 @@ local SuperSoldierModifier = CreateConVar("gk_super_soldier_modifier", 0.5, {FCV
 	Should spark effects play when damage is taken with armor?
 ]]
 local PlaySparks = CreateConVar("gk_play_sparks", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Should spark effects play when damage is taken with armor?")
+
+--[[
+	Should sounds play when damage is taken with armor?
+]]
+local PlaySounds = CreateConVar("gk_play_sounds", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Should sounds play when damage is taken with armor?")
 
 -- Included NPCs
 local IncludedNPCs = {
@@ -185,8 +189,10 @@ hook.Add("ScaleNPCDamage", "ManageNPCDamage", function(ent, hitgroup, dmginfo)
 		dmginfo:ScaleDamage(2)
 	end
 
-	-- we're most likely fine at this stage, so play a hit sound
-	ent:EmitSound(Sounds["BulletArmorHit01"]())
+	if PlaySounds:GetBool() then
+		-- we're most likely fine at this stage, so play a hit sound
+		ent:EmitSound(Sounds["BulletArmorHit01"]())
+	end
 
 	-- show a particle effect
 
