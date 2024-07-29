@@ -42,7 +42,7 @@ ArmoredNPCsAPI = API:Init()
 Sound("mw_carmor/bullet_small_flesh_helmet.wav")
 Sound("mw_carmor/bullet_impact_helmet_shatter_01.wav")
 
-local Sounds = {
+ArmoredNPC_Sounds = {
 	["BulletFleshHelmet01"] = function ()
 		local snd = "mw_carmor/bullet_small_flesh_helmet.wav"
 		return snd
@@ -175,7 +175,7 @@ hook.Add("ScaleNPCDamage", "ManageNPCDamage", function(ent, hitgroup, dmginfo)
 	-- if the NPC has no more armor, 
 	-- play the configured sound effect.
 	if NPCCurrentArmor <= 0 then
-		ent:EmitSound(Sounds["BulletFleshHelmet01"]())
+		ent:EmitSound(ArmoredNPC_Sounds["BulletFleshHelmet01"]())
 		ent:SetNWInt("Armor", 0)
 
 		return 1
