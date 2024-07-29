@@ -6,11 +6,13 @@ hook.Add( "PopulateToolMenu", "CustomMenuSettings", function()
 	local super = LocalPlayer():IsSuperAdmin()
 
 	spawnmenu.AddToolMenuOption( "Utilities", "Armored NPCs", "ArmoredNPCSettings", "#Settings", "", "", function( panel )
+		panel:ClearControls()
+
 		if not super then
 			panel:Help( "Only super admins can change Armored NPC settings." )
 			return
 		end
-		panel:ClearControls()
+
 		panel:CheckBox( "Enabled", "gk_armor_enabled" )
 		panel:CheckBox( "Send Messages To Server Console", "gk_send_messages" )
 
