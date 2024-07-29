@@ -4,6 +4,32 @@
 util.AddNetworkString("npc_took_damage")
 
 API = API or {}
+
+--[[ API Stuff ]]
+function API:Init() return self end
+
+-- Get all NPCs that currently have armor (in-game)
+-- O(n)
+function API:GetNPCsWithArmor()
+	local npcs = ents.FindByClass("npc_*")
+	local NPCs = {}
+
+	for k, v in pairs(npcs) do
+		if v:GetNWInt("Armor") and v:GetNWInt("Armor") > 0 then
+			table.insert(NPCs, v)
+		end
+	end
+
+	return NPCs
+end
+
+-- Sets a hook to be ran whenever NPC is spawned
+-- if the function returns false, the NPC will not be spawned with armor
+function API:ConnectNPCSpawn(func)
+	self.hooks = self.hooks or {}
+	self.hooks.NPCSPAWN = func
+end
+
 ArmoredNPCsAPI = API:Init()
 
 --[[
@@ -193,28 +219,3 @@ hook.Add("ShutDown", "ManageSettings", function()
 
 	sql.Commit()
 end)
-
---[[ API Stuff ]]
-function API:Init() return self end
-
--- Get all NPCs that currently have armor (in-game)
--- O(n)
-function API:GetNPCsWithArmor()
-	local npcs = ents.FindByClass("npc_*")
-	local NPCs = {}
-
-	for k, v in pairs(npcs) do
-		if v:GetNWInt("Armor") and v:GetNWInt("Armor") > 0 then
-			table.insert(NPCs, v)
-		end
-	end
-
-	return NPCs
-end
-
--- Sets a hook to be ran whenever NPC is spawned
--- if the function returns false, the NPC will not be spawned with armor
-function API:ConnectNPCSpawn(func)
-	self.hooks = self.hooks or {}
-	self.hooks.NPCSPAWN = func
-end
