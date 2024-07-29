@@ -1,5 +1,5 @@
 hook.Add( "AddToolMenuCategories", "CustomCategory", function()
-	spawnmenu.AddToolCategory( "Utilities", "Armored NPCs", "#armorednpcs" )
+	spawnmenu.AddToolCategory( "Utilities", "Armored NPCs", "#Armored NPCs" )
 end )
 
 hook.Add( "PopulateToolMenu", "CustomMenuSettings", function()
