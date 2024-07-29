@@ -3,7 +3,9 @@
 
 util.AddNetworkString("npc_took_damage")
 
-API = API or {}
+API = API or {
+	hooks = {}
+}
 
 --[[ API Stuff ]]
 function API:Init() return self end
@@ -75,6 +77,10 @@ local SendMessages = CreateConVar("gk_send_messages", 0, {FCVAR_ARCHIVE, FCVAR_N
 ]]
 local SuperSoldierModifier = CreateConVar("gk_super_soldier_modifier", 0.5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How much armor should super NPCs have compared to normal ones?")
 
+--[[
+	Should spark effects play when damage is taken with armor?
+]]
+local PlaySparks = CreateConVar("gk_play_sparks", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Should spark effects play when damage is taken with armor?")
 
 -- Included NPCs
 local IncludedNPCs = {
@@ -129,8 +135,10 @@ hook.Add("OnEntityCreated", "ManageNPCArmor", function(ent)
 
 	-- if the entity is an NPC
 	if ent:IsNPC() then
-		if ArmoredNPCsAPI.hooks.NPCSPAWN then
-			if ! ArmoredNPCsAPI.hooks:NPCSPAWN(ent) then return end -- APIs have first class access to NPC data
+		if ArmoredNPCsAPI.hooks then
+			if ArmoredNPCsAPI.hooks.NPCSPAWN then
+				if ! ArmoredNPCsAPI.hooks:NPCSPAWN(ent) then return end -- APIs have first class access to NPC data
+			end
 		end
 
 		if ! IncludedNPCs[ent:GetClass()] then
@@ -183,9 +191,11 @@ hook.Add("ScaleNPCDamage", "ManageNPCDamage", function(ent, hitgroup, dmginfo)
 	-- show a particle effect
 
 	if NPCCurrentArmor > 0 then
-		net.Start("npc_took_damage")
-		net.WriteEntity(ent)
-		net.Broadcast()
+		if PlaySparks:GetBool() then
+			net.Start("npc_took_damage")
+			net.WriteEntity(ent)
+			net.Broadcast()
+		end
 
 		return 1
 	end
