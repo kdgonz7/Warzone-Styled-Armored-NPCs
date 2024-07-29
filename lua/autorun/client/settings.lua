@@ -27,5 +27,6 @@ hook.Add( "PopulateToolMenu", "CustomMenuSettings", function()
 		cbox:ChooseOptionID(1)
 
 		panel:NumSlider( "Super Soldier Modifier", "gk_super_soldier_modifier", 0, 1, 2, "%" )
+		panel:NumSlider( "Default Armor Amount", "gk_regular_armor_amount", 0, 1, 1000, "%" )
 	end )
 end )
