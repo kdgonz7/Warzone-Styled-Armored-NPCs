@@ -74,7 +74,7 @@ local SendMessages = CreateConVar("gk_send_messages", 0, {FCVAR_ARCHIVE, FCVAR_N
 	scales the damage by this percentage. default is 70%. Probably 
 	shouldn't be touched.
 ]]
-local SuperSoldierModifier = CreateConVar("gk_super_soldier_modifier", 0.5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How much armor should super NPCs have compared to normal ones?")
+local SuperSoldierModifier = CreateConVar("gk_super_soldier_modifier", 0.2, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How much armor should super NPCs have compared to normal ones?")
 
 --[[
 	Should spark effects play when damage is taken with armor?
