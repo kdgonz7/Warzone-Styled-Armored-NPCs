@@ -86,6 +86,11 @@ local PlaySparks = CreateConVar("gk_play_sparks", 1, {FCVAR_ARCHIVE, FCVAR_NOTIF
 ]]
 local PlaySounds = CreateConVar("gk_play_sounds", 1, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Should sounds play when damage is taken with armor?")
 
+--[[
+	Default armor amount. More armor - more TTK
+]]
+local RegularArmorAmount = CreateConVar("gk_regular_armor_amount", 235, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Default armor amount. More armor - more TTK")
+
 -- Included NPCs
 local IncludedNPCs = {
 	["npc_combine_s"] = true,
@@ -95,9 +100,6 @@ local IncludedNPCs = {
 local SuperModels = {
 	["models/combine_super_soldier.mdl"] = true,
 }
-
--- The amount of armor NPCs should have.
-local RegularArmorAmount = 235
 
 -- scales the damage by the type that is in the settings.
 -- nodmg - take 0 damage
@@ -125,7 +127,7 @@ hook.Add("Initialize", "ManageSettings", function()
 			ProtType:SetString(tbl.type)
 			SendMessages:SetBool(tbl.messages)
 			SuperSoldierModifier:SetFloat(tbl.soldier)
-			RegularArmorAmount = tbl.armor
+			RegularArmorAmount:SetInt(tbl.armor)
 		end
 	end
 
@@ -157,7 +159,7 @@ hook.Add("OnEntityCreated", "ManageNPCArmor", function(ent)
 				print("[Armored NPCs] Added " .. RegularArmorAmount .. " armor to " .. ent:GetClass())
 			end
 
-			return RegularArmorAmount
+			return RegularArmorAmount:GetInt()
 		end)())
 	end
 end)
@@ -191,7 +193,7 @@ hook.Add("ScaleNPCDamage", "ManageNPCDamage", function(ent, hitgroup, dmginfo)
 
 	if PlaySounds:GetBool() then
 		-- we're most likely fine at this stage, so play a hit sound
-		ent:EmitSound(Sounds["BulletArmorHit01"]())
+		ent:EmitSound(ArmoredNPC_Sounds["BulletArmorHit01"]())
 	end
 
 	-- show a particle effect
@@ -215,7 +217,7 @@ hook.Add("ShutDown", "ManageSettings", function()
 		type = ProtType:GetString(),
 		messages = SendMessages:GetBool(),
 		soldier = SuperSoldierModifier:GetFloat(),
-		armor = RegularArmorAmount
+		armor = RegularArmorAmount:GetInt()
 	})
 
 	sql.Begin()
