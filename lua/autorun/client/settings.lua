@@ -7,7 +7,6 @@ hook.Add( "PopulateToolMenu", "CustomMenuSettings", function()
 
 	spawnmenu.AddToolMenuOption( "Utilities", "Armored NPCs", "ArmoredNPCSettings", "#Settings", "", "", function( panel )
 		if not super then
-			panel:ClearControls()
 			panel:Help( "Only super admins can change Armored NPC settings." )
 			return
 		end
