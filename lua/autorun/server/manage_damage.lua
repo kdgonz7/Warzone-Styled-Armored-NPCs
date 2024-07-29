@@ -42,7 +42,7 @@ local SendMessages = CreateConVar("gk_send_messages", 0, {FCVAR_ARCHIVE, FCVAR_N
 	scales the damage by this percentage. default is 70%. Probably 
 	shouldn't be touched.
 ]]
-local SuperSoldierModifier = CreateConVar("gk_super_soldier_modifier", 0.7, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How much armor should super NPCs have compared to normal ones?")
+local SuperSoldierModifier = CreateConVar("gk_super_soldier_modifier", 0.5, {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How much armor should super NPCs have compared to normal ones?")
 
 
 -- Included NPCs
@@ -62,10 +62,10 @@ local RegularArmorAmount = 235
 -- nodmg - take 0 damage
 -- deplete - take slightly less damage
 local function ScaleByType(dmg)
-	if ProtType:GetString() == "nodmg" then
+	if string.lower(ProtType:GetString()) == "nodmg" then
 		return 0	-- we take no damage :)
-	elseif ProtType:GetString() == "deplete" then
-		return 0.5	-- we take slightly less damage
+	elseif string.lower(ProtType:GetString()) == "deplete" then
+		return 0.3 	-- we take slightly less damage
 	else
 		return 1
 	end
@@ -121,14 +121,14 @@ hook.Add("ScaleNPCDamage", "ManageNPCDamage", function(ent, hitgroup, dmginfo)
 	if ! Enabled:GetBool() then return end
 	if ! ent:GetNWInt("Armor") then return end
 
-	if ent:GetNWInt("Armor") - dmginfo:GetDamage() <= 0 and IncludedNPCs[ent:GetClass()] and ent:GetNWInt("Armor") == RegularArmorAmount then
-		-- kill the NPC
-		ent:Fire("Kill", "", 0)
-		if SendMessages:GetBool() then
-			print("[Armored NPCs] Killed " .. ent:GetClass())
-		end
-		return
-	end
+	-- if ent:GetNWInt("Armor") - dmginfo:GetDamage() <= 0 and IncludedNPCs[ent:GetClass()] and ent:GetNWInt("Armor") == RegularArmorAmount then
+	-- 	-- kill the NPC
+	-- 	ent:Fire("Kill", "", 0)
+	-- 	if SendMessages:GetBool() then
+	-- 		print("[Armored NPCs] Killed " .. ent:GetClass())
+	-- 	end
+	-- 	return
+	-- end
 
 	local NPCCurrentArmor = ent:GetNWInt("Armor")
 
