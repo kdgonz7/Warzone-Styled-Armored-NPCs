@@ -156,15 +156,6 @@ hook.Add("ScaleNPCDamage", "ManageNPCDamage", function(ent, hitgroup, dmginfo)
 	if ! Enabled:GetBool() then return end
 	if ! ent:GetNWInt("Armor") then return end
 
-	-- if ent:GetNWInt("Armor") - dmginfo:GetDamage() <= 0 and IncludedNPCs[ent:GetClass()] and ent:GetNWInt("Armor") == RegularArmorAmount then
-	-- 	-- kill the NPC
-	-- 	ent:Fire("Kill", "", 0)
-	-- 	if SendMessages:GetBool() then
-	-- 		print("[Armored NPCs] Killed " .. ent:GetClass())
-	-- 	end
-	-- 	return
-	-- end
-
 	local NPCCurrentArmor = ent:GetNWInt("Armor")
 
 	ent:SetNWInt("Armor", NPCCurrentArmor - (dmginfo:GetDamage() * (function () if SuperModels[ent:GetModel()] then return SuperSoldierModifier:GetFloat() else return 1 end end)()))
