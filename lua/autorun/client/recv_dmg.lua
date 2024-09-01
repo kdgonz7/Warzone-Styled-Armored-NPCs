@@ -1,7 +1,10 @@
 net.Receive("npc_took_damage", function()
 	local ent = net.ReadEntity()
+	if ! IsValid(ent) then return end
 
 	local emitter = ParticleEmitter( ent:GetPos() + Vector( 0, 0, -1 ) )
+
+	
 	local part = emitter:Add( "effects/spark", ent:GetPos() + Vector( 0, 0, 50 ) ) -- Create a new particle at pos
 
 	if ( part ) then
